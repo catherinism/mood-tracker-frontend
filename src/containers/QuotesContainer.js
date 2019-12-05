@@ -17,7 +17,7 @@ export default class QuotesContainer extends Component {
             <div>
                 <ul>
                     {this.state.quotes.map(quote => (
-                    <div>
+                    <div key = {quote.id} >
                         <p>Quote: {quote.phrase}</p>
                         </div>
                     ))}
