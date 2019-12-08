@@ -1,31 +1,39 @@
-// import React, { Component } from 'react'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { fetchMoods } from '../redux/actions/moodsActions'
 
-// export default class MoodsContainers extends Component {
-//     state = {
-//         moods: []
-//     }
-//     componentDidMount() {
-//         fetch('http://localhost:3000/api/v1/moods')
-//             .then(res => {
-//                 console.log(res)
-//                 return res.json()
-//             })
-//             .then(moods => this.setState({ moods }))
-//     }
-//     render() {
-//         if (this.state.moods.length === 0) {
-//             return <h1>Loading...</h1>
-//         }
-//         return (
-//             <div>
-//                 <ul>
-//                     {this.state.moods.map(mood => (
-//                     <div>
-//                         <p> Feeling: {mood.feeling}</p>
-//                         </div>
-//                          ))}
-//                            </ul>
-//                            </div>
-//                            )
-//                          }
-//                         }
+class MoodsContainer extends Component {
+    state = {
+        moods: []
+    }
+    componentDidMount() {
+        this.props.fetchMoods()
+    }
+
+    render() {
+        if (this.props.moods.length === 0) {
+            return <h1>Loading moods...</h1>
+        }
+        return (
+            <div>
+                <ul>
+                    {this.props.moods.map(mood => (
+                    <div key = {mood.id} >
+                    <p>Feeling: {mood.feeling}</p>
+                        </div>
+                    ))}
+                </ul>
+            </div>
+        )
+    }
+}
+
+const mapStateToProps = state => {
+    return {
+        moods: state.moods
+    }
+}
+export default connect(
+    mapStateToProps, 
+    { fetchMoods }
+    )(MoodsContainer)
